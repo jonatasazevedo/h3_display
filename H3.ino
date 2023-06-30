@@ -17,15 +17,14 @@ ElevadorUs* eleUs = NULL;
 DisplayBuilder* disBuilder = NULL;
 
 void setup() {
-  startTime = millis();
   Serial.begin(9600);
   eleUs = new ElevadorUs;
   disBuilder = new DisplayBuilder;
   disBuilder->setEnable(1);
   disBuilder->buildDisplay(CLK,DIO);
   disBuilder->setupDisplay(brightness);
-  eleUs->setAndar(2);
-  eleUs->setUpDownStop(1);
+  eleUs->setAndar(0);
+  eleUs->setUpDownStop(0);
 }
 
 void loop() {
@@ -34,13 +33,17 @@ void loop() {
   updownstop = eleUs->getUpdownstop();
   switch(state){
     case 0:
-      currentTime = millis();
-      disBuilder->setAllDigits(0xff);
-      disBuilder->printDataDisplay(1);
+      startTime = millis();
       eleUs->doMicroservice();
-      if(currentTime-startTime>=DELAY) eleUs->setMode(1);
       break;
     case 1:
+      currentTime = millis();
+      disBuilder->setAllDigits(0xff);
+      disBuilder->printDataDisplay();
+      if(currentTime-startTime>=DELAY) eleUs->setMode(1);
+      eleUs->doMicroservice();
+      break;
+    case 2:
       disBuilder->setData(updownstop,andar);
       disBuilder->printDataDisplay();
       eleUs->doMicroservice();

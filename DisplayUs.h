@@ -8,8 +8,9 @@
 enum class stateType : int
 {
   wait_for_test = 0,
-  set_display = 1,
-  noise = 2
+  testing = 1,
+  set_display = 2,
+  noise = 3
 };
 
 class ElevadorUs : public Microservice
@@ -50,13 +51,7 @@ public:
     if ((enable == 1) && (active == 1))
     {
         
-    /*
-      counter9->doResetQ ();
-      counter3->doResetQ ();
-      lamp_test = 0;
-      blank_lamp = 1;
-    */
-      
+      mode = 1;
       state = stateType::wait_for_test;
       doMicroservice();
       
@@ -100,6 +95,9 @@ public:
       switch (state)
       {
         case stateType::wait_for_test:
+            state = stateType::testing;
+            break;
+        case stateType::testing:
             if(mode==1 || reset==1) state = stateType::set_display;
             break;
         case stateType::set_display:
@@ -123,7 +121,7 @@ public:
    * ---------------------------------------------------------------------------
    */
   int getTesteOk(){
-      return (stateType::wait_for_test)==state;
+      return (stateType::set_display)==state;
   }
   
   int getActive ()

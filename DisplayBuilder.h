@@ -88,14 +88,14 @@ public:
     for(int i=0;i<QTSEGMENTOS;i++) data[i]=value;
   }
 
-  void printDataDisplay(int teste=0){
-    if(isDataChanged(teste)){
+  void printDataDisplay(){
+    if(isDataChanged()){
       display->clear();
       display->setSegments(data);
     } 
   }
 
-  int isDataChanged(int teste){
+  int isDataChanged(){
     int inequal=0;
     for(int i=0;i<QTSEGMENTOS;i++){
       if(data[i]!=aux[i]) inequal=1;
