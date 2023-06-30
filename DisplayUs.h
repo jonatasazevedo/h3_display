@@ -13,7 +13,7 @@ enum class stateType : int
   noise = 3
 };
 
-class ElevadorUs : public Microservice
+class DisplayUs : public Microservice
 {
 
     
@@ -22,7 +22,7 @@ public:
    *  @brief      Configuração inicial do serviço.
    *  --------------------------------------------------------------------------
    */
-  ElevadorUs ()
+  DisplayUs ()
   {
     /*! Configura as entradas do microsserviço */
     mode       = 0;
@@ -51,7 +51,7 @@ public:
     if ((enable == 1) && (active == 1))
     {
         
-      mode = 1;
+      mode = 0;
       state = stateType::wait_for_test;
       doMicroservice();
       
@@ -70,7 +70,7 @@ public:
     if ((start >= 0) && (start <= 1))
     {
       /*! Guarda a entrada de controle. */
-      ElevadorUs::start = start;
+      DisplayUs::start = start;
 
       /*! Ajusta a saída de sinalização. */
       startActive = 1;
@@ -147,19 +147,19 @@ public:
   }
   
   void setReset(int reset){
-      ElevadorUs::reset = reset;
+      DisplayUs::reset = reset;
   }
   
   void setMode(int mode){
-      ElevadorUs::mode = mode;
+      DisplayUs::mode = mode;
   }
   
   void setAndar(int andar){
-      ElevadorUs::andar = andar;
+      DisplayUs::andar = andar;
   }
   
   void setUpDownStop(int updownstop){
-      ElevadorUs::updownstop = updownstop;
+      DisplayUs::updownstop = updownstop;
   }
   
 private:
